@@ -11,7 +11,6 @@ describe('Breadcrumb test', () => {
         classes={mockStyles}
         onStateChange={jest.fn()}
         location=""
-        username=""
       />,
     );
 
@@ -28,7 +27,6 @@ describe('Breadcrumb test', () => {
         classes={mockStyles}
         onStateChange={jest.fn()}
         location="voting"
-        username=""
       />,
     );
 

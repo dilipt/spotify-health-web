@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper/index';
 import { makeStyles, Button, Icon, Typography } from '@material-ui/core/index';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CardText from './CardText';
 import { SocketApi } from '../../../api';
 
@@ -38,10 +38,10 @@ const styles = makeStyles({
   },
 });
 
-export const VotingHealthIndicatorCard = ({
-  indicator, textAwesome, textCrap, sessionId, username,
-}) => {
+export const VotingHealthIndicatorCard = ({ indicator, textAwesome, textCrap }) => {
   const classes = styles();
+  const sessionId = useSelector(state => state.clientStoreReducer.session.id);
+  const username = useSelector(state => state.clientStoreReducer.username);
   const [activeButton, setActiveButton] = useState(-1);
 
   const handleClick = (vote, button) => (e) => {
@@ -90,9 +90,4 @@ VotingHealthIndicatorCard.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  sessionId: state.clientStoreReducer.session.id,
-  username: state.clientStoreReducer.username,
-});
-
-export default connect(mapStateToProps)(VotingHealthIndicatorCard);
+export default VotingHealthIndicatorCard;

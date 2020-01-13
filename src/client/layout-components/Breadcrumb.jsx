@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, Icon } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Theme from '../../Theme';
 
 const styles = makeStyles({
@@ -30,8 +30,9 @@ const styles = makeStyles({
   },
 });
 
-export const Breadcrumb = ({ location, username }) => {
+export const Breadcrumb = ({ location }) => {
   const classes = styles();
+  const username = useSelector(state => state.clientStoreReducer.username);
 
   const isActive = (name) => {
     if (location.includes(name)) {
@@ -54,36 +55,29 @@ export const Breadcrumb = ({ location, username }) => {
   };
 
   return (
-    <React.Fragment>
-      <section className={classes.container}>
-        <span className={classes.breadCrumbs}>
-          Member
-        </span>
-        <Icon>chevron_right</Icon>
-        <span className={isActive('welcome')}>
-          Welcome
-        </span>
-        <Icon>chevron_right</Icon>
-        <span className={isActive('voting')}>
-          Voting
-        </span>
-        <Icon>chevron_right</Icon>
-        <span className={isActive('summary')}>
-          Summary
-        </span>
-        {showLogin()}
-      </section>
-    </React.Fragment>
+    <section className={classes.container}>
+      <span className={classes.breadCrumbs}>
+        Member
+      </span>
+      <Icon>chevron_right</Icon>
+      <span className={isActive('welcome')}>
+        Welcome
+      </span>
+      <Icon>chevron_right</Icon>
+      <span className={isActive('voting')}>
+        Voting
+      </span>
+      <Icon>chevron_right</Icon>
+      <span className={isActive('summary')}>
+        Summary
+      </span>
+      {showLogin()}
+    </section>
   );
 };
 
 Breadcrumb.propTypes = {
   location: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  username: state.clientStoreReducer.username,
-});
-
-export default connect(mapStateToProps)(Breadcrumb);
+export default Breadcrumb;

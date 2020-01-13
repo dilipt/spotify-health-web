@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles, CircularProgress } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import VotingHealthIndicatorCard from './components/VotingHealthIndicatorCard';
 import { clientStoreActions } from '../../store/client';
 import Theme from '../../Theme';
@@ -21,25 +21,27 @@ const styles = makeStyles({
   },
 });
 
-export const VotingPage = ({ dispatch, cards, session }) => {
+export const VotingPage = () => {
   const classes = styles();
+  const dispatch = useDispatch();
+  const cards = useSelector(state => state.clientStoreReducer.cards);
+  const session = useSelector(state => state.clientStoreReducer.session);
 
   useEffect(() => {
-    dispatch(clientStoreActions.retrieveHealthIndicators(
-      { sessionId: session.id, passkey: session.passkey },
-    ));
+    dispatch(clientStoreActions.retrieveHealthIndicators({
+      sessionId: session.id,
+      passkey: session.passkey
+    }));
   }, [dispatch, session]);
 
-  const showCards = () => {
-    return cards.map(card => (
-      <VotingHealthIndicatorCard
-        key={card.name}
-        indicator={card.name}
-        textAwesome={card.textAwesome}
-        textCrap={card.textCrap}
-      />
-    ));
-  };
+  const showCards = () => cards.map(card => (
+    <VotingHealthIndicatorCard
+      key={card.name}
+      indicator={card.name}
+      textAwesome={card.textAwesome}
+      textCrap={card.textCrap}
+    />
+  ));
 
   return (
     <article className={classes.container}>
@@ -59,11 +61,4 @@ VotingPage.propTypes = {
   session: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cards: state.clientStoreReducer.cards,
-    session: state.clientStoreReducer.session,
-  };
-};
-
-export default connect(mapStateToProps)(VotingPage);
+export default VotingPage;

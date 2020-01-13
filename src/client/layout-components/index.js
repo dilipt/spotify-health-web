@@ -1,2 +1,5 @@
-/* eslint-disable import/prefer-default-export */
-export { default as Breadcrumb } from './Breadcrumb';
+import { Breadcrumb } from "../../admin/layout-components";
+
+export {
+  Breadcrumb,
+}

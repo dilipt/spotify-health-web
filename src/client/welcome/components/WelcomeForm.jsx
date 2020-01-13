@@ -1,7 +1,7 @@
 import { Button, makeStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import Theme from 'Theme';
 import UserCache, { Account } from '../../mixin/user-cache';
@@ -54,10 +54,10 @@ const styles = makeStyles({
   },
 });
 
-const WelcomeForm = ({ dispatch, forwardLink }) => {
+const WelcomeForm = ({ forwardLink }) => {
   const classes = styles();
   const account = UserCache.getAccountDetails();
-
+  const dispatch = useDispatch();
   const [firstName, updateFirstName] = useState(account.firstname);
   const [surname, updateSurname] = useState(account.surname);
   const [alias, updateAlias] = useState(account.alias);
@@ -139,4 +139,4 @@ WelcomeForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(WelcomeForm);
+export default WelcomeForm;
